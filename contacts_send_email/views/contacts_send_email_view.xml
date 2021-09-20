@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherit_res_partner_form_view" model="ir.ui.view">
+            <field name="name">inherit.res.partner.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="before">
+                    <field name="country_code" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='email']" position="attributes">
+                    <attribute name="attrs">{'required': [('country_code', '!=', 'FR')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
