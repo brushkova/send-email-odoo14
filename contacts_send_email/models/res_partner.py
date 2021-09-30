@@ -1,12 +1,8 @@
-import logging
-
 from odoo import api, fields, models, _
-
-_logger = logging.getLogger(__name__)
 
 
 class Partner(models.Model):
-    _inherit = "res.partner"
+    _inherit = 'res.partner'
 
     country_code = fields.Char(related='country_id.code')
 
@@ -33,7 +29,7 @@ class Partner(models.Model):
                 'subject': _('Login notification %s') % self.name,
                 'email_from': 'brushkovak@gmail.com',
                 'email_to': self.email,
-                'body_html': "<p>Your account was successfully created or email changed<p/>",
+                'body_html': '<p>Your account was successfully created or email changed<p/>',
             }])
             mail.send()
             return True
