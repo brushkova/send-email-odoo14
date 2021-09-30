@@ -29,7 +29,7 @@ class CollectiveAccount(models.Model):
         return True
 
     @api.model
-    def update_calculate_collective_account(self, partner_id, price_total, product_id, quantity):
+    def remove_calculate_collective_account(self, partner_id, price_total, product_id, quantity):
         record = self.search([['partner_id', '=', partner_id.id], ['product_id', '=', product_id.id]])
 
         if record.exists():

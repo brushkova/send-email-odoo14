@@ -4,7 +4,7 @@ from odoo import models, fields
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    unload_calculate_invoice = fields.Boolean(string='Unload Calculate Invoice')
+    unload_calculate_invoice = fields.Boolean(string='Unload Calculate Invoice', states={'draft': [('readonly', True)]})
 
     def _post(self, soft=True):
         to_post = super(AccountMove, self)._post(soft=soft)
@@ -33,7 +33,7 @@ class AccountMove(models.Model):
                         lambda i: i.exclude_from_invoice_tab is False
                         and i.product_id.type in ['consu', 'product']
                 ):
-                    self.env['collective.account'].update_calculate_collective_account(
+                    self.env['collective.account'].remove_calculate_collective_account(
                         move.commercial_partner_id,
                         line.price_total,
                         line.product_id,
