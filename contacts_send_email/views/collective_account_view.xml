@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="collective_account_view_form" model="ir.ui.view">
         <field name="name">Collective Account Form</field>
         <field name="model">collective.account</field>
@@ -29,6 +30,7 @@
             </tree>
         </field>
     </record>
+
     <record id='collective_account_action' model='ir.actions.act_window'>
         <field name="name">Collective Account</field>
         <field name="res_model">collective.account</field>
