@@ -19,10 +19,11 @@ class TestReadSalary(TransactionCase):
         self.wizard_1.import_xlsx_link()
         # check state wizards after run method
         self.assertEqual(self.wizard_1.state, 'step2')
-        # check count line in models
+        # check line in models
         self.sf_records = self.sf.search([])
         self.assertEqual(len(self.sf_records), 26)
-        self.sf_record_fn = self.sf.search([
+        self.sf_record_1 = self.sf.search([
             ('first_name', '=', 'Kate'),
+            ('last_name', '=', 'Brushkova')
         ])
-        self.assertEqual(len(self.sf_record_fn), 5)
+        self.assertEqual(self.sf_record_1.salary, 1111)

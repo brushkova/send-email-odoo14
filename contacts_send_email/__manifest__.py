@@ -6,6 +6,7 @@
         "base",
         "contacts",
         "mail",
+        "purchase",
         "sale_management",
         "stock",
     ],
