@@ -20,7 +20,7 @@
         "views/seq_sale_order.xml",
         "views/collective_account_view.xml",
         "views/view_move_form.xml",
-        "wizard/read_salary_view.xml",
+        "wizards/read_salary_view.xml",
     ],
     "installable": True,
     "application": False,

@@ -1,24 +1,36 @@
 import base64
 import csv
 import io
+import os
 
 import requests
 import xlrd
 
-from odoo import models, fields
+
+from odoo import fields, models
+from odoo.exceptions import UserError
+from requests.exceptions import MissingSchema
 
 
 class ReadSalaryWizard(models.TransientModel):
     _name = 'read.salary.wizard'
 
-    file_salary = fields.Binary(string='Salary File', help='Upload file')
-    file_link = fields.Char(string='Link file', help='Unload link')
+    file_csv = fields.Binary(string='Unload .csv File', help='Upload file')
+    file_name = fields.Char(string='File Name')
+    link_xlsx = fields.Char(string='Insert .xlsx Link', help='Unload link')
     state = fields.Selection(selection=[('step1', 'step1'), ('step2', 'step2')], default='step1')
     count = fields.Integer()
 
     def import_csv_file(self):
-        csv_data = base64.b64decode(self.file_salary)
-        data_file = io.StringIO(csv_data.decode("utf-8"))
+        csv_data = base64.b64decode(self.file_csv)
+        ext = os.path.splitext(self.file_name)[-1].lower()
+        if ext != '.csv':
+            raise UserError('Only csv files are supported.')
+
+        try:
+            data_file = io.StringIO(csv_data.decode("utf-8"))
+        except ValueError:
+            raise UserError('Only csv files are supported.')
         csv_reader = csv.DictReader(data_file, delimiter=',')
 
         data = []
@@ -47,21 +59,29 @@ class ReadSalaryWizard(models.TransientModel):
         }
 
     def import_xlsx_link(self):
-        r = requests.get(self.file_link)  # make an HTTP request
-        book = xlrd.open_workbook(file_contents=r.content)  # access the response body as bytes
-        sheet = book.sheet_by_index(0)
+        try:
+            r = requests.get(self.link_xlsx)  # make an HTTP request
+            if r.status_code != 200:
+                raise UserError('Only excel files are supported.')
+        except MissingSchema:
+            raise UserError('Only excel files are supported.')
 
-        name_col = ['first_name', 'last_name', 'salary']
+        try:
+            book = xlrd.open_workbook(file_contents=r.content)  # access the response body as bytes
+        except xlrd.biffh.XLRDError:
+            raise UserError('Only excel files are supported.')
+
+        sheet = book.sheet_by_index(0)
         col_value = []
         for row in range(sheet.nrows):
             self.count += 1
-            elm = {}
-            for col in range(sheet.ncols):
-                elm[name_col[col]] = sheet.cell_value(row, col)
+            elm = dict(zip(['first_name', 'last_name', 'salary'], sheet.row_values(row)))
+
             col_value.append(elm)
             if len(col_value) == 10:
                 self.env['salary.fields'].create(col_value)
                 col_value.clear()
+
         if col_value:
             self.env['salary.fields'].create(col_value)
 

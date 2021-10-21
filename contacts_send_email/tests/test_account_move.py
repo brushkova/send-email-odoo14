@@ -1,11 +1,7 @@
-import logging
-
 from odoo.tests import TransactionCase, tagged
 
-_logger = logging.getLogger(__name__)
 
-
-@tagged('-post_install', 'account_move')
+@tagged('-post_install', 'chek_invoice')
 class TestAccountMove(TransactionCase):
 
     def setUp(self):

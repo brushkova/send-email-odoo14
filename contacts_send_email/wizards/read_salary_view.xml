@@ -8,8 +8,9 @@
                 <form string="Unload file" edit="false" create="false" delete="false">
                     <field name="state" invisible="True"/>
                     <group>
-                        <field name="file_salary" states="step1"/>
-                        <field name="file_link" states="step1"/>
+                        <field name="file_csv" filename="file_name" states="step1"/>
+                        <field name="link_xlsx" states="step1"/>
+                        <field name="file_name" invisible="True"/>
                     </group>
                     <p attrs="{'invisible': [('state', '!=', 'step2')]}">
                         <b>Added fields:</b>
@@ -17,11 +18,11 @@
                     <field name="count" readonly="True" states="step2"/>
                     <footer>
                         <button name="import_csv_file"
-                            string="Rent File" type="object"
+                            string="Rent .csv File" type="object"
                             class="btn-primary"
                             states="step1"/>
                         <button name="import_xlsx_link"
-                            string="Rent Link" type="object"
+                            string="Rent .xlsx Link" type="object"
                             class="btn-primary"
                             states="step1"/>
                         <button string="Cancel"
