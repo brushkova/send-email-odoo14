@@ -1,10 +1,10 @@
-from odoo import models, fields
+from odoo import fields, models
 
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    unload_calculate_invoice = fields.Boolean(string='Unload Calculate Invoice', states={'draft': [('readonly', True)]})
+    unload_calculate_invoice = fields.Boolean(string='Unload Calculate Invoice')
 
     def _post(self, soft=True):
         to_post = super(AccountMove, self)._post(soft=soft)
@@ -21,7 +21,6 @@ class AccountMove(models.Model):
                         line.product_id,
                         line.quantity
                     )
-
         return to_post
 
     def button_draft(self):

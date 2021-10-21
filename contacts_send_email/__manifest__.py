@@ -6,6 +6,7 @@
         "base",
         "contacts",
         "mail",
+        "purchase",
         "sale_management",
         "stock",
     ],
@@ -19,7 +20,8 @@
         "views/contacts_send_email_view.xml",
         "views/seq_sale_order.xml",
         "views/collective_account_view.xml",
-        "views/view_move_form.xml"
+        "views/view_move_form.xml",
+        "wizards/read_salary_view.xml",
     ],
     "installable": True,
     "application": False,

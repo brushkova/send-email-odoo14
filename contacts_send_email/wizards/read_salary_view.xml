@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="view_read_salary_wizard" model="ir.ui.view">
+            <field name="name">view.read.salary.wizard</field>
+            <field name="model">read.salary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Unload file" edit="false" create="false" delete="false">
+                    <field name="state" invisible="True"/>
+                    <group>
+                        <field name="file_csv" filename="file_name" states="step1"/>
+                        <field name="link_xlsx" states="step1"/>
+                        <field name="file_name" invisible="True"/>
+                    </group>
+                    <p attrs="{'invisible': [('state', '!=', 'step2')]}">
+                        <b>Added fields:</b>
+                    </p>
+                    <field name="count" readonly="True" states="step2"/>
+                    <footer>
+                        <button name="import_csv_file"
+                            string="Rent .csv File" type="object"
+                            class="btn-primary"
+                            states="step1"/>
+                        <button name="import_xlsx_link"
+                            string="Rent .xlsx Link" type="object"
+                            class="btn-primary"
+                            states="step1"/>
+                        <button string="Cancel"
+                            class="btn-default"
+                            special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    <act_window id="read_salary_action" name="Read Salary" res_model="read.salary.wizard" view_mode="form" target="new"/>
+    <menuitem name="Salary" id="read_salary_menu" parent="contacts.menu_contacts" action="read_salary_action"/>
+
+</odoo>

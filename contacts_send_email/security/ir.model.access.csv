@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 collective_account,collective.account default,model_collective_account,,1,1,1,1
+access_read_salary,read.read_salary_wizard,model_read_salary_wizard,,1,1,1,1
+access_salary_fields,salary.salary_fields,model_salary_fields,,1,1,1,1
